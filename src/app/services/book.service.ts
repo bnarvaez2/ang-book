@@ -20,7 +20,12 @@ export class BookService {
   }
 
   scrapeBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(`${this.baseUrl}/scrape-books`);
+    return this.http.get<Book[]>(`${this.baseUrl}/scrape-books`).pipe(
+        catchError(err => {
+          console.error('Error al ejecutar el scraping:', err);
+          return throwError(() => new Error('El servicio de scraping no está funcionando, por favor intente de nuevo.'));
+        })
+    );
   }
 
   deleteBook(id: number): Observable<void> {

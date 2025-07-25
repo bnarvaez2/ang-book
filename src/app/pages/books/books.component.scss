@@ -168,3 +168,8 @@
     }
   }
 }
+
+::ng-deep .error-snackbar {
+  background: #d32f2f;
+  color: #fff;
+}

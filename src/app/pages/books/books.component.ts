@@ -10,6 +10,8 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ChangeDetectorRef } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ErrorDialogComponent} from "../../components/error-dialog/error-dialog.component";
 
 @Component({
   selector: 'app-books',
@@ -32,7 +34,8 @@ export class BooksComponent implements OnInit {
   selectedBook: Book | null = null;
   loading = signal(false);
 
-  constructor(private bookService: BookService, private dialog: MatDialog, private cdr: ChangeDetectorRef) {}
+  constructor(private bookService: BookService, private dialog: MatDialog, private cdr: ChangeDetectorRef,
+              private snackBar: MatSnackBar ) {}
 
   ngOnInit(): void {
     this.loadBooks();
@@ -70,12 +73,24 @@ export class BooksComponent implements OnInit {
 
   scrapeBooks(): void {
     this.loading.set(true);
-    this.bookService.scrapeBooks().subscribe(() => {
-      this.bookService.getBooks().subscribe((books) => {
-        this.books = [...books];
-        this.filteredBooks = [...books];
+    this.bookService.scrapeBooks().subscribe({
+      next: () => {
+        this.bookService.getBooks().subscribe((books) => {
+          this.books = [...books];
+          this.filteredBooks = [...books];
+          this.loading.set(false);
+        });
+      },
+      error: (err) => {
         this.loading.set(false);
-      });
+        this.dialog.open(ErrorDialogComponent, {
+          data: {
+            title: 'Error en el servicio',
+            message: 'El servicio de scraping no está funcionando. Por favor, inténtelo de nuevo más tarde.'
+          },
+          width: '400px'
+        });
+      }
     });
   }
 
@@ -90,13 +105,23 @@ export class BooksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
       if (result === true) {
-        this.bookService.deleteBook(id).subscribe(() => {
-          this.books = [...this.books.filter(b => b.id !== id)];
-          this.filteredBooks = [...this.filteredBooks.filter(b => b.id !== id)];
-          this.selectedBook = null;
-          this.cdr.detectChanges();
+        this.bookService.deleteBook(id).subscribe({
+          next: () => {
+            this.books = this.books.filter(b => b.id !== id);
+            this.filteredBooks = this.filteredBooks.filter(b => b.id !== id);
+            this.selectedBook = null;
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Error al eliminar:', err);
+            this.dialog.open(ErrorDialogComponent, {
+              data: {
+                title: 'Error al eliminar',
+                message: 'El servicio no está funcionando. Intenta de nuevo más tarde.'
+              }
+            });
+          }
         });
       }
     });
