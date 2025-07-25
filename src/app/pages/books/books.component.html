@@ -1,0 +1,39 @@
+<div class="books-container">
+
+  <header class="app-bar">
+    <div class="app-bar-left">
+      <mat-icon class="app-icon">menu_book</mat-icon>
+      <div class="app-title">
+        <h1>Ang Books</h1>
+        <span class="subtitle">Gestor de Libros y Scraper</span>
+      </div>
+    </div>
+    <div class="app-bar-right">
+      <mat-spinner class="scraper-spinner" *ngIf="loading()" diameter="20"></mat-spinner>
+    </div>
+  </header>
+
+  <div class="layout-grid">
+    <div class="filter-section">
+      <button class="scraper-btn scraper-container" (click)="scrapeBooks()" [disabled]="loading()">
+        <Strong> Scrapear Libros </Strong><mat-icon>cloud_download</mat-icon>
+      </button>
+
+      <app-filter-bar
+        [categories]="categories"
+        (filterChange)="onFilterChange($event)">
+      </app-filter-bar>
+    </div>
+
+    <div class="content-section">
+      <h1>Libros</h1>
+      <div class="table-section">
+        <app-data-table
+          [books]="filteredBooks"
+          (select)="onSelectBook($event)"
+          (delete)="deleteBook($event)">
+        </app-data-table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div class="book-card-modal">
+  <div class="modal-header">
+    <h2>{{ book.title }}</h2>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="modal-content">
+    <div class="book-info">
+      <p><strong>Categoría:</strong> {{ book.category }}</p>
+      <p><strong>Precio: </strong> £{{ book.price }}</p>
+      <p><strong>Stock:</strong> {{ book.stock }}</p>
+
+      <p class="rating-container">
+        <strong>Rating:</strong>
+        <ng-container *ngFor="let star of starsArray(5); let i = index">
+          <mat-icon class="star-icon">
+            {{ i < book.rating ? 'star' : 'star_border' }}
+          </mat-icon>
+        </ng-container>
+      </p>
+
+
+      <p> <strong>Descripción:</strong></p>
+      <p class="description-container"> {{ book.description }}</p>
+    </div>
+  </div>
+
+  <!-- Footer con acciones -->
+  <div class="modal-footer">
+    <button mat-raised-button color="warn" (click)="onDeleteBook(book.id)">
+      <mat-icon>delete</mat-icon> Eliminar
+    </button>
+    <button mat-stroked-button (click)="close()">Cerrar</button>
+  </div>
+</div>
+

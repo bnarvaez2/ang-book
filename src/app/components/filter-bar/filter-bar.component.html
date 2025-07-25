@@ -1,0 +1,26 @@
+<div class="filter-bar">
+  <div class="slider-container">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Buscar por título</mat-label>
+      <input matInput type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" />
+    </mat-form-field>
+
+    <label for="price-slider">Precio máximo: £{{ maxPrice }}</label>
+    <mat-slider [min]="0" [max]="maxPriceLimit" [step]="10">
+      <input
+        matSliderThumb
+        [(ngModel)]="maxPrice"
+        (ngModelChange)="applyFilters()"
+        id="price-slider"
+      />
+    </mat-slider>
+  </div>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Categoría</mat-label>
+    <mat-select [(ngModel)]="selectedCategory" (selectionChange)="applyFilters()">
+      <mat-option value="">Todas</mat-option>
+      <mat-option *ngFor="let category of categories" [value]="category">{{ category }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

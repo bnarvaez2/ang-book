@@ -1,0 +1,137 @@
+.book-card-modal {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .book-info {
+      flex: 2;
+      p {
+        margin: 0.4rem 0;
+      }
+    }
+
+    .book-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        max-width: 120px;
+        height: auto;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  mat-icon.star-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: gold;
+  }
+  .rating-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    strong {
+      margin-right: 4px;
+    }
+
+    .star-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+
+  .description-container {
+    max-height: 120px; /* Ajusta el alto máximo que deseas */
+    overflow-y: auto;
+    padding-right: 8px; /* deja espacio para la barra de scroll */
+    line-height: 1.4;
+  }
+
+  /* Opcional: personalizar el scroll para que se vea mejor */
+  .description-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .description-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+  }
+
+  .description-container::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+  }
+
+
+
+  @media (max-width: 768px) {
+    .modal-content {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .book-image {
+        width: 100%;
+        img {
+          max-width: 100%;
+        }
+      }
+
+
+
+      .description-container {
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 8px;
+        line-height: 1.4;
+      }
+
+      .description-container::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .description-container::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+
+      .description-container::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
+      }
+    }
+  }
+}
